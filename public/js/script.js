@@ -89,7 +89,7 @@ var send = function () {
                 console.log("msgRef value updated:" + msgID);
             });
             database.ref('messages/'+msgID).set({
-                'name': auth.currentUser.displayName
+                'name': auth.currentUser.displayName,
                 'message': message,
                 'createdAt': firebase.database.ServerValue.TIMESTAMP
             });
