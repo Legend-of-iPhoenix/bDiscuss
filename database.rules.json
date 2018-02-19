@@ -1,11 +1,8 @@
 {
   "rules": {
-    "userState": {
-      "$user": {
-        "isMod": {
-          ".write": false
-        }
-      }
+    "mods": {
+      ".read": "auth != null",
+      ".write": false
     },
     ".read": "auth != null",
     ".write": "auth != null"
