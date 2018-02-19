@@ -151,10 +151,6 @@ var initProfile = function () {
 
 }
 
-function dropHammer(username) {
-
-}
-
 var deleteMsg = function (id) {
     dID = parseInt(id);
 
