@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TIBD Discuss [Beta]</title>
+    <script src="https://unpkg.com/tippy.js@2.2.2/dist/tippy.all.min.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/4.9.1/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/2.5.1/firebaseui.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.6.2/css/bulma.min.css">
+    <script type="text/javascript" src="js/linkify.min.js"></script>
+    <script type="text/javascript" src="js/linkify-jquery.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<!-- <div class="admin"><a onclick="deleteMsg();"><i class="fas fa-times"></i></a></div> -->
+
+<body onload="scrollToBottom()">
+    <div class="ui container is-dark">
+        <div id="messages" class="fixed"></div>
+        <div class="field has-addons">
+            <div class="control is-expanded limited">
+                <input type="text" id="messageInput" class="input"></input>
+            </div>
+            <div class="control">
+                <a id="sendMessage" class="button is-dark is-bold">Send</a>
+            </div>
+        </div>
+    </div>
+    <div id="userSignedIn">
+        <a id="signOut">Sign Out</a>
+    </div>
+    <div id="userSignedOut">
+        <div id="firebaseui-auth-container"></div>
+    </div>
+    <button class="btn" title="I'm a tooltip!">Text</button>
+    <script type="text/javascript" src="js/script.js"></script>
+</body>
+
+</html>

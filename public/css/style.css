@@ -1,0 +1,150 @@
+@import url(https://fonts.googleapis.com/css?family=Ubuntu:500);
+@media screen and (min-width: 400px) {
+    .fixed {
+        height: 300px;
+        overflow: auto;
+        border: 1px solid #444;
+    }
+    .msg {
+        background-color: #fafafa;
+        padding: 5px 15px;
+        font-size: 9pt;
+        font-family: sans-serif;
+        position: relative;
+    }
+    .msg:hover {
+        background-color: #f5f5f5;
+    }
+    .msginfo {
+        position: absolute;
+        bottom: 0;
+        right: 2px;
+        font-size: 5pt;
+        color: #acacac;
+        transition-duration: 0.3s;
+        text-align: center;
+    }
+    .msginfo:hover {
+        color: #444;
+        cursor: default;
+    }
+    .admin {
+        color: #9c9c9c;
+        cursor: pointer;
+        font-size: 9pt;
+        float: right;
+    }
+    .tabview {
+        float: right;
+    }
+    .limited {
+        width: 50%;
+    }
+    input#messageInput {
+        width: 100%;
+        outline: none;
+    }
+}
+
+body {
+    font-family: 'Ubuntu', sans-serif;
+}
+
+a {
+    color: #3d5a91;
+    text-decoration: none;
+    text-shadow: 0px -2px 0 rgba(255, 255, 255, 0), 0px -1px 0 rgba(255, 255, 255, 0), 0px 0px 0 rgba(255, 255, 255, 0), 2px -2px 0 rgba(255, 255, 255, 0), 2px -1px 0 rgba(255, 255, 255, 0), 2px 0px 0 rgba(255, 255, 255, 0), -2px -2px 0 rgba(255, 255, 255, 0), -2px -1px 0 rgba(255, 255, 255, 0), -2px 0px 0 rgba(255, 255, 255, 0), 1px -2px 0 rgba(255, 255, 255, 0), 1px -1px 0 rgba(255, 255, 255, 0), 1px 0px 0 rgba(255, 255, 255, 0), -1px -2px 0 rgba(255, 255, 255, 0), -1px -1px 0 rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) -1px 0px 0 rgba(255, 255, 255, 0), 0px -2px 0 rgba(255, 255, 255, 0), 0px -1px 0 rgba(255, 255, 255, 0), rgba(255, 255, 255, 0), 0px 0px 0 rgba(255, 255, 255, 0);
+    -webkit-box-shadow: 0 -1px 0 0 rgba(255, 255, 255, 0) inset, 0 -2px 0 0 transparent inset;
+    box-shadow: 0 -1px 0 0 rgba(255, 255, 255, 0) inset, 0 -2px 0 0 transparent inset;
+    -webkit-transition: all .3s ease-in;
+    transition: all .3s ease-in;
+}
+
+a:hover {
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+    -webkit-box-shadow: 0 -1px 0 0 white inset, 0 -2px 0 0 #3d5a91 inset;
+    box-shadow: 0 -1px 0 0 white inset, 0 -2px 0 0 #3d5a91 inset;
+}
+
+a::-moz-selection {
+    color: white;
+    background: #3d5a91;
+    text-shadow: none;
+}
+
+a::selection {
+    color: white;
+    background: #3d5a91;
+    text-shadow: none;
+}
+
+h1 a,
+h2 a {
+    -webkit-box-shadow: 0 -1px 0 0 white inset, 0 -3px 0 0 transparent inset;
+    box-shadow: 0 -1px 0 0 white inset, 0 -3px 0 0 transparent inset;
+}
+
+h1 a:hover,
+h2 a:hover {
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+    -webkit-box-shadow: 0 -1px 0 0 white inset, 0 -3px 0 0 #3d5a91 inset;
+    box-shadow: 0 -1px 0 0 white inset, 0 -3px 0 0 #3d5a91 inset;
+}
+
+input#messageInput {
+    width: 100%;
+    outline: none;
+}
+
+strong {
+    cursor: pointer;
+}
+
+.fixed {
+    height: 420px;
+    overflow: auto;
+    border: 1px solid #444;
+    border-bottom: none;
+}
+
+.msg {
+    background-color: #fafafa;
+    padding: 5px 15px;
+    font-size: 10pt;
+    font-family: 'Ubuntu', sans-serif;
+    position: relative;
+}
+
+.msg:hover {
+    background-color: #f5f5f5;
+}
+
+.admin {
+    color: #303030;
+    cursor: pointer;
+    font-size: 11pt;
+    float: right;
+    margin-right: 5px;
+}
+
+.mod {
+    border: 1px solid #3f3f3f;
+    padding: 3px 8px;
+    margin-right: 3px;
+}
+
+.tabview {
+    float: right;
+}
+
+.limited {
+    width: 50%;
+}
+
+.timestamp {
+    color: #535353;
+    border: 1px solid #3f3f3f;
+    padding: 3px 8px;
+}
