@@ -7,7 +7,7 @@ var val, childData, userRef;
 var objDiv, scroll, tippyText = "";
 var dID, globalID, delMsg, msgID;
 
-var productionMode = false;
+var productionMode = true;
 
 //this code disables the console in production mode, so that our debug messages don't affect user experience. It's a really clever script, and I'm really proud of it. - _iPhoenix_
 productionMode&&(()=>{x=console,window.console={},void Object.keys(x).forEach(function(o){window.console[o]=(()=>{})})})();
