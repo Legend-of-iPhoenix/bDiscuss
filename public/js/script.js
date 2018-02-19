@@ -7,6 +7,11 @@ var val, childData, userRef;
 var objDiv, scroll, tippyText = "";
 var dID, globalID, delMsg, msgID;
 
+var productionMode = false;
+
+//this code disables the console in production mode, so that our debug messages don't affect user experience. It's a really clever script, and I'm really proud of it. - _iPhoenix_
+productionMode&&(()=>{x=console,window.console={},void Object.keys(x).forEach(function(o){window.console[o]=(()=>{})})})();
+
 //save yourself an unnecessary, one-use global variable.
 firebase.initializeApp({
     apiKey: "AIzaSyCI8N2f4HGdG7KVtjoea-g4eCkxvQhLOQw",
@@ -80,9 +85,7 @@ var send = function () {
                     console.log('Transaction failed abnormally!', error);
                 } else if (!committed) {
                     console.log('Aborted the transaction (because ' + userName + ' already exists).');
-                } else {
-
-                }
+                } // why was there an empty else statement here?
             }, false);
             msgRef.on('value', function (data) {
                 msgID = data.val();
@@ -148,6 +151,10 @@ var initProfile = function () {
 
 }
 
+function dropHammer(username) {
+
+}
+
 var deleteMsg = function (id) {
     dID = parseInt(id);
 
@@ -165,13 +172,7 @@ var deleteMsg = function (id) {
         }
     }, false);
 
-    var ref = firebase.database().ref('messages/'+dID);
-    ref.on("value", function (snapshot) {
-        snapshot.forEach((function (child) {
-            database.ref('messages/' + child.key).remove();
-        }));
-    });
-
+    firebase.database().ref('messages/'+dID).remove();
 }
 
 // Shamelessly ripped from UniChat by _iPhoenix_, to prevent XSS.
@@ -226,12 +227,12 @@ var initUser = function () {
             /*
             if (counter > 29) {
                 $('#' + (counter - 30)).remove();
-            }*/
-
+            }
+            */
             $('#messages').append("<div class='msg' id=" + val.id + ">" + "<span class='timestamp'>" + new Date(val.ts).toLocaleTimeString() + "</span> <strong id='user" + val.id + "' class='user" + val.id + "' title='"+val.un+"'>" + val.un + "</strong>: " + cleanse(val.msg));
             firebase.database().ref("/mods/").once('value').then(x=>$('#user' + val.id).prepend((1+x.val().indexOf(val.un))?"<span class='mod'>MOD</span>":""))
             if (isMod) {
-                $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(document.getElementById(this.id).id);'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer();'><i class='fas fa-gavel'></i></a>");
+                $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(\""+val.id+"\")'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer("+val.un+");'><i class='fas fa-gavel'></i></a>");
             }
             $('.msg').linkify();
             tippy('.admin');
