@@ -213,7 +213,7 @@ var initUser = function () {
             console.log('User' + userName + ' added!');
         }
         console.log(userName + "'s data: ", snapshot.val());
-        isMod = firebase.database().ref("/mods/").once('value').then(x=>-1!=(x.val().indexOf(firebase.auth().currentUser.displayName)));
+        firebase.database().ref("/mods/").once('value').then(x=>isMod=(-1!=(x.val().indexOf(firebase.auth().currentUser.displayName))));
         isBanned = snapshot.val().isBanned;
         messageRef.orderByChild('ts').limitToLast(30).on('child_added', function (data) {
             var val = data.val();
