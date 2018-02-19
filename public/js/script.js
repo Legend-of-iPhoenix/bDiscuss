@@ -5,7 +5,7 @@ var ui, uiConfig, refChildCounter, counter = 1,
     mod = "",
     isUser = false;
 var val, childData, userRef;
-var objDiv, scroll, tippyText = "";
+var objDiv, scroll = true, tippyText = "";
 var dID, globalID, delMsg, msgID;
 
 var productionMode = true;
@@ -123,13 +123,6 @@ $(function () {
         }
     });
     $('.msg').linkify();
-    $('#messages').on('scroll', function () {
-        if ($(this).scrollTop() + $(this).innerHeight() >= $(this)[0].scrollHeight) {
-            scroll = true;
-        } else {
-            scroll = false;
-        }
-    });
     tippy('.btn');
     tippy('.remove');
     tippy('.hammer');
