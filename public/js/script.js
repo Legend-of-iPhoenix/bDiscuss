@@ -6,15 +6,21 @@ var ui, uiConfig, refChildCounter, counter = 1,
 var val, childData, userRef;
 var objDiv, scroll, tippyText = "";
 var dID, globalID, delMsg, msgID;
-var config = {
+
+var productionMode = true;
+
+//this code disables the console in production mode, so that our debug messages don't affect user experience. It's a really clever script, and I'm really proud of it. - _iPhoenix_
+productionMode&&(()=>{x=console,window.console={},void Object.keys(x).forEach(function(o){window.console[o]=(()=>{})})})();
+
+//save yourself an unnecessary, one-use global variable.
+firebase.initializeApp({
     apiKey: "AIzaSyCI8N2f4HGdG7KVtjoea-g4eCkxvQhLOQw",
     authDomain: "tibd-discuss-beta.firebaseapp.com",
     databaseURL: "https://tibd-discuss-beta.firebaseio.com",
     projectId: "tibd-discuss-beta",
     storageBucket: "tibd-discuss-beta.appspot.com",
     messagingSenderId: "617814984936"
-};
-firebase.initializeApp(config);
+});
 
 //firebase authentication & database
 var auth = firebase.auth(),
@@ -71,7 +77,7 @@ var send = function () {
         var message = messageInput.value;
         if (message != "") {
             msgRef.transaction(function (currentData) {
-                console.log("msgID Transaction:" + msgID.toString());
+                console.log("msgID Transaction:" + msgID); // you don't need the .toString() because JS is loosely typed and converts it to a string implicitly.
 
                 return currentData + 1;
             }, function (error, committed, snapshot) {
@@ -79,21 +85,17 @@ var send = function () {
                     console.log('Transaction failed abnormally!', error);
                 } else if (!committed) {
                     console.log('Aborted the transaction (because ' + userName + ' already exists).');
-                } else {
-
-                }
+                } // why was there an empty else statement here?
             }, false);
             msgRef.on('value', function (data) {
                 msgID = data.val();
-                console.log("msgRef value updated:" + msgID.toString());
+                console.log("msgRef value updated:" + msgID);
             });
-            database.ref('messages/').push({
-                'name': auth.currentUser.displayName,
-                'linkedTo': auth.currentUser.displayName,
-                'message': message,
-                'createdAt': firebase.database.ServerValue.TIMESTAMP,
-                'isMod': isMod,
-                'id': msgID + 1
+            console.log(message);
+            database.ref('messages/'+msgID).set({
+                'un': auth.currentUser.displayName,
+                'msg': message,
+                'ts': firebase.database.ServerValue.TIMESTAMP
             });
         }
         messageInput.value = '';
@@ -154,7 +156,7 @@ var deleteMsg = function (id) {
 
     database.ref('global/deleteID').transaction(function (currentData) {
         globalID = dID;
-        console.log("dID Value: " + globalID.toString());
+        console.log("dID Value: " + globalID);
         return dID;
     }, function (error, committed, snapshot) {
         if (error) {
@@ -166,13 +168,7 @@ var deleteMsg = function (id) {
         }
     }, false);
 
-    var ref = firebase.database().ref('messages');
-    ref.orderByChild('id').equalTo(dID).on("value", function (snapshot) {
-        snapshot.forEach((function (child) {
-            database.ref('messages/' + child.key).remove();
-        }));
-    });
-
+    firebase.database().ref('messages/'+dID).remove();
 }
 
 // Shamelessly ripped from UniChat by _iPhoenix_, to prevent XSS.
@@ -197,10 +193,10 @@ var initUser = function () {
             console.log('User' + userName + ' added!');
         }
     });
+    //firebase.database().ref('/mods/').on('')
     userRef.transaction(function (currentData) {
         if (currentData === null) {
             return {
-                isMod: false,
                 isBanned: false,
                 posts: 0
             };
@@ -217,24 +213,26 @@ var initUser = function () {
             console.log('User' + userName + ' added!');
         }
         console.log(userName + "'s data: ", snapshot.val());
-        isMod = snapshot.val().isMod;
+        firebase.database().ref("/mods/").once('value').then(x=>isMod=(-1!=(x.val().indexOf(firebase.auth().currentUser.displayName))));
         isBanned = snapshot.val().isBanned;
-        messageRef.limitToLast(30).on('child_added', function (data) {
+        messageRef.orderByChild('ts').limitToLast(30).on('child_added', function (data) {
             var val = data.val();
+            val.id = data.key;
+            console.log(val)
+            // I don't like this script. It makes it hard to record important conversations. I'm commenting it out, but feel free to add it back in.
+            /*
             if (counter > 29) {
-                $('#' + (counter - 30).toString()).remove();
+                $('#' + (counter - 30)).remove();
             }
-
-            $('#messages').append("<div class='msg' id=" + val.id.toString() + ">" + "<span class='timestamp'>" + new Date(val.createdAt).toLocaleTimeString() + "</span> <strong id=" + "user" + val.id.toString() + " class=" + "user" + val.id.toString() + " title='test'>" + val.name + "</strong>: " + cleanse(val.message.toString()));
-            if (val.isMod) {
-                $('#' + "user" + val.id.toString()).prepend("<span class='mod'>MOD</span>");
-            }
+            */
+            $('#messages').append("<div class='msg' id=" + val.id + ">" + "<span class='timestamp'>" + new Date(val.ts).toLocaleTimeString() + "</span> <strong id='user" + val.id + "' class='user" + val.id + "' title='"+val.un+"'>" + val.un + "</strong>: " + cleanse(val.msg));
+            firebase.database().ref("/mods/").once('value').then(x=>$('#user' + val.id).prepend((1+x.val().indexOf(val.un))?"<span class='mod'>MOD</span>":""))
             if (isMod) {
-                $('#' + (val.id).toString()).append("<a class='admin remove' title='Delete' id=" + val.id.toString() + " onclick='deleteMsg(document.getElementById(this.id).id);'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer();'><i class='fas fa-gavel'></i></a>");
+                $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(\""+val.id+"\")'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer("+val.un+");'><i class='fas fa-gavel'></i></a>");
             }
             $('.msg').linkify();
             tippy('.admin');
-            tippy(".user" + val.id.toString());
+            tippy(".user" + val.id);
             counter++;
             if (scroll) {
                 objDiv = document.getElementById("messages");
@@ -244,11 +242,11 @@ var initUser = function () {
         messageRef.on('child_removed', function (data) {
             database.ref('global/deleteID').transaction(function (currentData) {
                 globalID = currentData;
-                console.log("dID Value: " + globalID.toString());
+                console.log("dID Value: " + globalID);
                 return dID;
             });
             console.log(globalID);
-            delMsg = document.getElementById(globalID.toString());
+            delMsg = document.getElementById(globalID);
             delMsg.parentNode.removeChild(delMsg);
         });
 
