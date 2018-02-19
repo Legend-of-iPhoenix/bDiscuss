@@ -15,6 +15,9 @@
     .msg:hover {
         background-color: #f5f5f5;
     }
+    .action {
+        color: purple;
+    }
     .msginfo {
         position: absolute;
         bottom: 0;
@@ -119,6 +122,10 @@ strong {
 
 .msg:hover {
     background-color: #f5f5f5;
+}
+
+.action {
+    color: purple;
 }
 
 .admin {
