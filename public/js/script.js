@@ -196,10 +196,10 @@ var initUser = function () {
             console.log('User' + userName + ' added!');
         }
     });
+    firebase.database().ref('/mods/').on('')
     userRef.transaction(function (currentData) {
         if (currentData === null) {
             return {
-                isMod: false,
                 isBanned: false,
                 posts: 0
             };
@@ -216,20 +216,20 @@ var initUser = function () {
             console.log('User' + userName + ' added!');
         }
         console.log(userName + "'s data: ", snapshot.val());
-        isMod = snapshot.val().isMod;
+        isMod = firebase.database().ref("/mods/").once('value').then(x=>-1!=(x.val().indexOf(firebase.auth().currentUser.displayName)));
         isBanned = snapshot.val().isBanned;
-        messageRef.on('child_added', function (data) {
+        messageRef.orderByChild(ts).on('child_added', function (data) {
             var val = data.val();
             val.id = data.key;
             console.log(val)
+            // I don't like this script. It makes it hard to record important conversations. I'm commenting it out, but feel free to add it back in.
+            /*
             if (counter > 29) {
                 $('#' + (counter - 30)).remove();
-            }
+            }*/
 
             $('#messages').append("<div class='msg' id=" + val.id + ">" + "<span class='timestamp'>" + new Date(val.ts).toLocaleTimeString() + "</span> <strong id='user" + val.id + "' class='user" + val.id + "' title='"+val.un+"'>" + val.un + "</strong>: " + cleanse(val.msg));
-            if (val.isMod) {
-                $('#' + "user" + val.id).prepend("<span class='mod'>MOD</span>");
-            }
+            firebase.database().ref("/mods/").once('value').then(x=>$('#user' + val.id).prepend((1+x.indexOf(val.un))?"<span class='mod'>MOD</span>":""))
             if (isMod) {
                 $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(document.getElementById(this.id).id);'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer();'><i class='fas fa-gavel'></i></a>");
             }
