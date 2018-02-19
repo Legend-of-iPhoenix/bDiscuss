@@ -88,10 +88,11 @@ var send = function () {
                 msgID = data.val();
                 console.log("msgRef value updated:" + msgID);
             });
+            console.log(message);
             database.ref('messages/'+msgID).set({
-                'name': auth.currentUser.displayName,
-                'message': message,
-                'createdAt': firebase.database.ServerValue.TIMESTAMP
+                'un': auth.currentUser.displayName,
+                'msg': message,
+                'ts': firebase.database.ServerValue.TIMESTAMP
             });
         }
         messageInput.value = '';
@@ -219,7 +220,8 @@ var initUser = function () {
         isBanned = snapshot.val().isBanned;
         messageRef.limitToLast(30).on('child_added', function (data) {
             var val = data.val();
-            val.id = data.key
+            val.id = data.key;
+            console.log(val)
             if (counter > 29) {
                 $('#' + (counter - 30)).remove();
             }
