@@ -1,4 +1,4 @@
-(()=>{
+var f = (function(){
 var ui, uiConfig, refChildCounter, counter = 1,
     userFlag = false,
     userName = " ",
