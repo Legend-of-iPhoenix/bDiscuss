@@ -196,7 +196,7 @@ var initUser = function () {
             console.log('User' + userName + ' added!');
         }
     });
-    firebase.database().ref('/mods/').on('')
+    //firebase.database().ref('/mods/').on('')
     userRef.transaction(function (currentData) {
         if (currentData === null) {
             return {
