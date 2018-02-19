@@ -175,6 +175,13 @@ var deleteMsg = function (id) {
 
 }
 
+// Shamelessly ripped from UniChat by _iPhoenix_, to prevent XSS.
+function cleanse(message) {
+  var n = document.createElement("DIV");
+  n.innerText = message;
+  return n.innerHTML;
+}
+
 var initUser = function () {
     userRef = firebase.database().ref('userState/' + userName);
     postRef = firebase.database().ref('userState/' + userName + '/posts');
@@ -218,7 +225,7 @@ var initUser = function () {
                 $('#' + (counter - 30).toString()).remove();
             }
 
-            $('#messages').append("<div class='msg' id=" + val.id.toString() + ">" + "<span class='timestamp'>" + new Date(val.createdAt).toLocaleTimeString() + "</span> <strong id=" + "user" + val.id.toString() + " class=" + "user" + val.id.toString() + " title='test'>" + val.name + "</strong>: " + val.message.toString());
+            $('#messages').append("<div class='msg' id=" + val.id.toString() + ">" + "<span class='timestamp'>" + new Date(val.createdAt).toLocaleTimeString() + "</span> <strong id=" + "user" + val.id.toString() + " class=" + "user" + val.id.toString() + " title='test'>" + val.name + "</strong>: " + cleanse(val.message.toString()));
             if (val.isMod) {
                 $('#' + "user" + val.id.toString()).prepend("<span class='mod'>MOD</span>");
             }
