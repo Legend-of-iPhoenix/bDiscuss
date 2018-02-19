@@ -229,7 +229,7 @@ var initUser = function () {
             }*/
 
             $('#messages').append("<div class='msg' id=" + val.id + ">" + "<span class='timestamp'>" + new Date(val.ts).toLocaleTimeString() + "</span> <strong id='user" + val.id + "' class='user" + val.id + "' title='"+val.un+"'>" + val.un + "</strong>: " + cleanse(val.msg));
-            firebase.database().ref("/mods/").once('value').then(x=>$('#user' + val.id).prepend((1+x.indexOf(val.un))?"<span class='mod'>MOD</span>":""))
+            firebase.database().ref("/mods/").once('value').then(x=>$('#user' + val.id).prepend((1+x.val().indexOf(val.un))?"<span class='mod'>MOD</span>":""))
             if (isMod) {
                 $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(document.getElementById(this.id).id);'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer();'><i class='fas fa-gavel'></i></a>");
             }
