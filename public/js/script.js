@@ -218,7 +218,7 @@ var initUser = function () {
         console.log(userName + "'s data: ", snapshot.val());
         isMod = snapshot.val().isMod;
         isBanned = snapshot.val().isBanned;
-        messageRef.limitToLast(30).on('child_added', function (data) {
+        messageRef.on('child_added', function (data) {
             var val = data.val();
             val.id = data.key;
             console.log(val)
