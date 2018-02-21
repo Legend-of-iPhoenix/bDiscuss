@@ -11,6 +11,7 @@
         font-size: 9pt;
         font-family: sans-serif;
         position: relative;
+        word-wrap: break-word;
     }
     .msg:hover {
         background-color: #f5f5f5;
@@ -118,6 +119,7 @@ strong {
     font-size: 10pt;
     font-family: 'Ubuntu', sans-serif;
     position: relative;
+    word-wrap: break-word;
 }
 
 .msg:hover {
