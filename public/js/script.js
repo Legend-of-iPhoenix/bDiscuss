@@ -231,7 +231,7 @@ function f() {
                 }
                 firebase.database().ref("/mods/").once('value').then(x => $('#user' + val.id).prepend((1 + x.val().indexOf(val.un)) ? "<span class='mod'>MOD</span>" : ""))
                 if (isMod) {
-                    $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(\"" + val.id + "\")'><i class='fas fa-times'></i></a><a class='admin hammer' title='Ban' onclick='dropHammer(" + val.un + ");'><i class='fas fa-gavel'></i></a>");
+                    $('#' + (val.id)).append("<a class='admin remove' title='Delete' id=" + val.id + " onclick='deleteMsg(\"" + val.id + "\")'><i class='fas fa-times'></i></a><a class='admin hammer' id=" + val.id + " title='Ban' onclick='dropHammer(" + val.un + ");'><i class='fas fa-gavel'></i></a>");
                 }
                 if (cleanse(val.msg).includes(firebase.auth().currentUser.displayName.substring(0, 3))) {
                     $('#' + (val.id)).css({
