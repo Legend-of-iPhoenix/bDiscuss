@@ -235,12 +235,8 @@ function f() {
                 }
                 if (cleanse(val.msg).includes(firebase.auth().currentUser.displayName.substring(0, 3))) {
                     $('#' + (val.id)).css({
-                        "background-color": "#444",
-                        "color": "whitesmoke"
+                        "background-color": "#ddd"
                     });
-                    $('#user' + val.id).css("color", "#E0E0E0");
-                    $('.timestamp').css("color", "#aaa");
-                    $('#' + val.id + ".admin").css("color", "#E0E0E0");
                 }
                 $('.msg').linkify();
                 tippy('.admin');
